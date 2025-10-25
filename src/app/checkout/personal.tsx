@@ -7,11 +7,15 @@ import KeyboardAwareScrollView from "../../components/KeyboardAwareScrollView";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+// import RNPickerSelect from "react-native-picker-select";
+import countries from "../../../assets/countries.json";
 import {
   PersonalInfo,
   PersonalInfoSchema,
   useCheckoutForm,
 } from "../../context/CheckoutFormProvider";
+import CustomPicker from "../../components/CustomPicker";
+import CustomDateTimePicker from "../../components/CustomDateTimePicker";
 
 // const PersonalInfoSchema = z.object({
 //   fullName: z
@@ -92,12 +96,24 @@ const PersonalDetailForm = () => {
           />
         </View>
 
+        
+        <CustomPicker
+          name="country"
+          placeholder={{ label: "Select country" }}
+          items={countries.map((country) => ({
+            label: country.name,
+            value: country.code,
+          }))}
+        />
+
         <CustomTextInput
           label="Phone number"
           name="phone"
           placeholder="1234567890"
           inputMode="tel"
         />
+
+        <CustomDateTimePicker name="birthdate" />
 
         <CustomButton
           onPress={form.handleSubmit(onNext)}
