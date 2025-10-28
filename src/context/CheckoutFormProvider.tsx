@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React, {
   createContext,
   PropsWithChildren,
@@ -15,7 +14,9 @@ export const PersonalInfoSchema = z.object({
   address: z.string().min(1, { message: "Please provide your address!" }),
   city: z.string().min(1, { message: "City is required!" }),
   postcode: z.string().min(1, { message: "Postal code is required!" }),
+  country: z.string().length(2),
   phone: z.string().min(1, { message: "Phone is required!" }),
+  birthdate: z.date(),
 });
 
 export const PaymentSchema = z.object({
@@ -28,6 +29,8 @@ export const PaymentSchema = z.object({
       "Expiry date must be in MM/YY or MM/YYYY format"
     ),
   CVV: z.coerce.number().min(3, { message: "Please provide CVV number" }),
+  savecard: z.boolean().optional(),
+  switchValue: z.boolean().optional(),
 });
 
 export type PaymentInfo = z.infer<typeof PaymentSchema>;
@@ -39,7 +42,7 @@ type CheckoutForm = {
   setPersonalInfo: (val: PersonalInfo | undefined) => void;
   paymentInfo: PaymentInfo | undefined;
   setPaymentInfo: (val: PaymentInfo | undefined) => void;
-  onSubmit : ()=> void;
+  onSubmit: () => void;
 };
 
 const CheckoutFormContext = createContext<CheckoutForm>({
@@ -47,7 +50,7 @@ const CheckoutFormContext = createContext<CheckoutForm>({
   setPersonalInfo: () => {},
   paymentInfo: undefined,
   setPaymentInfo: () => {},
-  onSubmit : ()=> {}
+  onSubmit: () => {},
 });
 
 export default function CheckoutFormProvider({ children }: PropsWithChildren) {
@@ -55,9 +58,8 @@ export default function CheckoutFormProvider({ children }: PropsWithChildren) {
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | undefined>();
 
   const onSubmit = () => {
-
-    if(!personalInfo || !paymentInfo){
-      console.log('The form is not complete')
+    if (!personalInfo || !paymentInfo) {
+      console.log("The form is not complete");
       return;
     }
 
@@ -70,7 +72,13 @@ export default function CheckoutFormProvider({ children }: PropsWithChildren) {
 
   return (
     <CheckoutFormContext.Provider
-      value={{ personalInfo, setPersonalInfo, paymentInfo, setPaymentInfo, onSubmit }}
+      value={{
+        personalInfo,
+        setPersonalInfo,
+        paymentInfo,
+        setPaymentInfo,
+        onSubmit,
+      }}
     >
       {children}
     </CheckoutFormContext.Provider>
