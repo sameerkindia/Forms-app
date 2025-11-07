@@ -5,29 +5,8 @@ import CustomButton from "../../components/CustomButton";
 import KeyboardAwareScrollView from "../../components/KeyboardAwareScrollView";
 import { useCheckoutForm } from "../../context/CheckoutFormProvider";
 
-// const personalInfo = {
-//   fullName: "Sameer khan",
-//   address: "Poblenou",
-//   city: "Barcelona",
-//   postcode: "1234",
-//   phone: "1234567890",
-//   country: "ES",
-// };
-
-// const paymentInfo = {
-//   cardNumber: "123456789012",
-//   expires: "01.30",
-//   CVV: "123",
-// };
-
 const ConfirmForm = () => {
   const { personalInfo, paymentInfo, onSubmit } = useCheckoutForm();
-
-  // const onNext = () => {
-  //   // router.push("/");
-  //   router.dismissAll();
-  //   router.back();
-  // };
   return (
     <KeyboardAwareScrollView>
       <View style={{ gap: 10, flex: 1 }}>
